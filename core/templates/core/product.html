@@ -1,0 +1,50 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container">
+  <div class="card mn-3">
+    <div class="row g-o">
+      <div class="col-md-4">
+        <img src="{{product.images.url}} " class="img-fluid rounded-start" alt="...."/>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <center>
+            <h5 class="card-title"> {{product.name}} </h5>
+            <p class="text-title justify"> {{product.discription}} </p>
+            {% comment %} <strike>
+              &nbsp; {{product.price}}
+          </strike> {% endcomment %}
+          &nbsp;
+          ${{product.sale_price}} <br>
+          ID:{{product.id}} <br>
+          <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+        <button type="button" value="{{product.id}}" id="add- cart" class="btn btn-secondary">Add To Cart</button>
+        </div>
+
+        </center>
+      </div>
+    </div>
+  </div>
+  <br><br> <br><br><br><br><br><br><br>vvv<br><br><br><br><br><br><br><br><br><br><br>
+</div>
+<script>
+  $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        $.ajax({
+          type:'POST',
+          url: '{% url 'cart_add' %}',
+          data:{
+            product_id: $('#add-cart').val(),
+            crsfmiddlewareToken:'{{csrf_token}}'
+          },
+          success: function(json){
+                console.log(json)
+
+          },
+          error: function(xhr, errmsg, err){
+
+          },
+        })
+      })
+</script>
+{% endblock %}
